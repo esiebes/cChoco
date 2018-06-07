@@ -91,16 +91,16 @@ function Set-TargetResource
             $whatIfShouldProcess = $pscmdlet.ShouldProcess("$Name", 'Remove Chocolatey package')
             if ($whatIfShouldProcess) {
                 Write-Verbose -Message "Removing $Name as ensure is set to absent"
-                UninstallPackage -pName $Name -arguments $Params
+                UninstallPackage -pName $Name -pParams $Params
             }
         } else {
             $whatIfShouldProcess = $pscmdlet.ShouldProcess("$Name", 'Installing / upgrading package from Chocolatey')
             if ($whatIfShouldProcess) {
                 if ($Version) {
                     Write-Verbose -Message "Uninstalling $Name due to version mis-match"
-                    UninstallPackage -pName $Name -arguments $Params
+                    UninstallPackage -pName $Name -pParams $Params
                     Write-Verbose -Message "Re-Installing $Name with correct version $version"
-                    InstallPackage -pName $Name -arguments $Params -pVersion $Version -pSource $Source -cParams $chocoParams
+                    InstallPackage -pName $Name -pParams $Params -pVersion $Version -pSource $Source -cParams $chocoParams
                 } elseif ($AutoUpgrade) {
                     Write-Verbose -Message "Upgrading $Name due to version mis-match"
                     Upgrade-Package -pName $Name -arguments $Params -pSource $Source
@@ -110,7 +110,7 @@ function Set-TargetResource
     } else {
         $whatIfShouldProcess = $pscmdlet.ShouldProcess("$Name", 'Install package from Chocolatey')
         if ($whatIfShouldProcess) {
-            InstallPackage -pName $Name -arguments $Params -pVersion $Version -pSource $Source -cParams $chocoParams
+            InstallPackage -pName $Name -pParams $Params -pVersion $Version -pSource $Source -cParams $chocoParams
         }
     }
 }
